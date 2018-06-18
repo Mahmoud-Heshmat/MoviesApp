@@ -62,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         if (vote != null){
-            String ratePercentage = vote + " /10";
+            String ratePercentage = vote + "/10";
             rate_txt.setText(ratePercentage);
         }
 
