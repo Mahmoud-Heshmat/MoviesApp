@@ -14,11 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.wasltec.ahmadalghamdi.moviesapp.EndlessRecycleView.EndlessRecyclerViewScrollListener;
 import com.wasltec.ahmadalghamdi.moviesapp.api.Singleton;
 import com.wasltec.ahmadalghamdi.moviesapp.api.URLS;
 import com.wasltec.ahmadalghamdi.moviesapp.model.Movie;
@@ -28,44 +30,76 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class HomeActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    @BindView(R.id.recycle_view) RecyclerView recyclerView;
+
     private MoviesAdapter adapter;
     GridLayoutManager gridLayoutManager;
 
     Context context;
     ArrayList<Movie> list = new ArrayList<>();
 
+    //RecycleView LoadMore
+    private static int page = 1;
+    EndlessRecyclerViewScrollListener scrollListener;
+
+    //URL
+    private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        ButterKnife.bind(this);
         View parentLayout = findViewById(android.R.id.content);
 
         context = this;
 
         gridLayoutManager = new GridLayoutManager(context, 2);
-        recyclerView =  findViewById(R.id.recycle_view);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         if (isOnline()) {
-            getMovies();
+            scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                    page++;
+                    getMovies(page, true);
+                }
+            };
+            // Adds the scroll listener to RecyclerView
+            recyclerView.addOnScrollListener(scrollListener);
+
+            getMovies(page, true);
         }else{
-            Snackbar.make(parentLayout, "Please check network Connection", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(parentLayout, R.string.network_connection, Snackbar.LENGTH_LONG).show();
         }
     }
 
-    public void getMovies(){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.mainURL, new Response.Listener<String>() {
+    public void getMovies(final int page, Boolean isPopular){
+
+        if (!isPopular){
+            url = URLS.getTopRatedURL(page);
+        }else{
+            url = URLS.getMoviesURL(page);
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response", response);
                 if (!response.isEmpty()){
-                    list = JsonUtils.parseMoviesJson(response);
-                    adapter = new MoviesAdapter(context, list);
-                    recyclerView.setAdapter(adapter);
+                    list = JsonUtils.parseMoviesJson(response, list);
+
+                    if (page == 1){
+                        adapter = new MoviesAdapter(context, list);
+                        recyclerView.setAdapter(adapter);
+                    }else if(page > 1){
+                        adapter.update_data(list);
+                    }
+
                 }
             }
         }, new Response.ErrorListener() {
@@ -97,24 +131,14 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.top_rated:
-                Collections.sort(list, new Comparator<Movie>() {
-                    public int compare(Movie v1, Movie v2) {
-                        return Integer.valueOf(v2.getVote_count()).compareTo(Integer.valueOf(v1.getVote_count()));
-                    }
-                });
-
-                adapter = new MoviesAdapter(context, list);
-                recyclerView.setAdapter(adapter);
+                page = 1 ;
+                list.clear();
+                getMovies(page, false);
                 return true;
             case R.id.most_popular:
-                Collections.sort(list, new Comparator<Movie>() {
-                    public int compare(Movie v1, Movie v2) {
-                        return Double.valueOf(v2.getPopularity()).compareTo(Double.valueOf(v1.getPopularity()));
-                    }
-                });
-
-                adapter = new MoviesAdapter(context, list);
-                recyclerView.setAdapter(adapter);
+                page = 1 ;
+                list.clear();
+                getMovies(page, true);
                 return true;
         }
         return false;

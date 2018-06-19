@@ -14,6 +14,7 @@ import com.wasltec.ahmadalghamdi.moviesapp.api.URLS;
 import com.wasltec.ahmadalghamdi.moviesapp.model.Movie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder>{
 
@@ -37,6 +38,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         final Movie movie = items.get(position);
         final String posterPath = URLS.posterPath + movie.getPoster_path();
 
+        if (movie.getVideo()){
+            Log.d("responseVideo", movie.getId());
+        }
+
         Picasso.with(context)
                 .load(posterPath)
                 .placeholder(R.drawable.ic_image)
@@ -47,11 +52,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("path", posterPath);
-                intent.putExtra("title", movie.getTitle());
-                intent.putExtra("releaseDate", movie.getRelease_date());
-                intent.putExtra("vote", movie.getVote_average());
-                intent.putExtra("overview", movie.getOverview());
+                intent.putExtra("movie", movie);
                 context.startActivity(intent);
             }
         });
@@ -72,6 +73,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    public void update_data(ArrayList<Movie> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

@@ -23,13 +23,13 @@
                 android:layout_height="150dp">
 
                 <TextView
-                    tools:text="Thor : Rangogrk"
-                    android:textSize="30sp"
+                    tools:text="@string/movieName"
+                    android:textSize="@dimen/dim30"
                     android:textColor="@color/white"
                     android:id="@+id/movieTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="@dimen/dim20"
                     android:layout_gravity="center_vertical"/>
 
             </FrameLayout>
@@ -48,7 +48,7 @@
                     android:layout_weight="1.5"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="30dp"/>
+                    android:layout_marginLeft="@dimen/dim30"/>
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -58,32 +58,32 @@
                     android:layout_weight="1">
 
                     <TextView
-                        tools:text="2105"
-                        android:textSize="25sp"
+                        tools:text="@string/relaseDate"
+                        android:textSize="@dimen/dim25"
                         android:id="@+id/releaseDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"/>
+                        android:layout_marginLeft="@dimen/dim30"/>
 
                     <TextView
-                        tools:text="8.1/10"
-                        android:textSize="20sp"
+                        tools:text="@string/rate"
+                        android:textSize="@dimen/dim20"
                         android:id="@+id/rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"/>
+                        android:layout_marginLeft="@dimen/dim30"/>
                 </LinearLayout>
 
             </LinearLayout>
 
             <TextView
-                tools:text="A volcanic eruption threatens the remaining dinosaurs on the island of Isla Nublar, where the creatures have freely roamed for several years after the demise of an animal theme park known as Jurassic World. Claire Dearing, the former park manager, has now founded the Dinosaur Protection Group, an organization dedicated to protecting the dinosaurs. To help with her cause, Claire has recruited Owen Grady, a former dinosaur trainer who worked at the park, to prevent the extinction of the dinosaurs once again."
-                android:textSize="20sp"
+                tools:text="@string/overview"
+                android:textSize="@dimen/dim20"
                 android:id="@+id/overview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="30dp"/>
+                android:layout_marginRight="@dimen/dim10"
+                android:layout_marginLeft="@dimen/dim30"/>
 
         </LinearLayout>
 

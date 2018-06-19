@@ -30,12 +30,11 @@ public class JsonUtils {
     public static final String overviewConst = "overview";
     public static final String release_dateConst = "release_date";
 
-    public static ArrayList<Movie> parseMoviesJson(String json) {
+    public static ArrayList<Movie> parseMoviesJson(String json, ArrayList<Movie> list) {
 
         Movie movie = null;
         Geners geners = null;
         ArrayList<Geners> ids = new ArrayList<>();
-        ArrayList<Movie> list = new ArrayList<>();
 
         try {
             JSONObject jsonObject = new JSONObject(json);

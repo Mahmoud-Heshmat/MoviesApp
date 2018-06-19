@@ -7,7 +7,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie implements Parcelable{
+public class Movie implements Parcelable {
 
     private String vote_count;
     private String id;
@@ -72,6 +72,7 @@ public class Movie implements Parcelable{
         dest.writeString(id);
         dest.writeByte((byte) (video ? 1 : 0));
         dest.writeString(vote_average);
+        dest.writeString(title);
         dest.writeString(popularity);
         dest.writeString(poster_path);
         dest.writeString(original_language);

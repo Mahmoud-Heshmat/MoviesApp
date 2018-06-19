@@ -31,17 +31,17 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        //movie = getIntent().getParcelableExtra("Movie");
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-            path = bundle.getString("path");
-            title = bundle.getString("title");
-            relaseDate = bundle.getString("releaseDate");
-            vote = bundle.getString("vote");
-            overview = bundle.getString("overview");
-        }
-        populateUI();
 
+        movie = getIntent().getParcelableExtra("movie");
+        if (movie != null){
+            path = URLS.posterPath + movie.getPoster_path();
+            title = movie.getTitle();
+            relaseDate = movie.getRelease_date();
+            vote = movie.getVote_count();
+            overview = movie.getOverview();
+
+            populateUI();
+        }
     }
 
     private void populateUI() {
