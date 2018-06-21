@@ -140,6 +140,9 @@ public class HomeActivity extends AppCompatActivity {
                 list.clear();
                 getMovies(page, true);
                 return true;
+            case R.id.favorite:
+                startActivity(new Intent(context, FavoriteActivity.class));
+                return true;
         }
         return false;
     }

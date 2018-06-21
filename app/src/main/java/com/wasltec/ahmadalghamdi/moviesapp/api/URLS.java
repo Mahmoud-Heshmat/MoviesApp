@@ -18,5 +18,9 @@ public class URLS {
         return "http://api.themoviedb.org/3/movie/"+videoID+"/videos?api_key="+apiKey+"";
     }
 
+    public static String getReviewsURL(String movieID, int page){
+        return "http://api.themoviedb.org/3/movie/"+movieID+"/reviews?api_key="+apiKey+"&page="+page+"";
+    }
+
     public static final String posterPath = "http://image.tmdb.org/t/p/w185/";
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlayTrailerActivity">
+
+    <FrameLayout
+        android:background="@color/green"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <TextView
+            tools:text="@string/movieName"
+            android:textSize="@dimen/dim25"
+            android:textColor="@color/white"
+            android:id="@+id/movieTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim20"
+            android:layout_gravity="center_vertical"/>
+
+    </FrameLayout>
+
+    <fragment
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+        android:id="@+id/youtube_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<com.google.android.youtube.player.YouTubePlayerView-->
+        <!--android:layout_marginTop="@dimen/dim10"-->
+        <!--android:id="@+id/youtube_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
+
+</LinearLayout>
