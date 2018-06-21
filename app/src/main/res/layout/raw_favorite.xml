@@ -11,21 +11,65 @@ android:layout_margin="4dp"
 card_view:cardElevation="4dp"
 card_view:cardCornerRadius="4dp">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="20dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/movieName"
-        tools:text="@string/movieName"
-        android:textSize="@dimen/dim20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"/>
-</LinearLayout>
+        <ImageView
+            android:id="@+id/posterImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@color/colorAccent"
+            android:layout_weight="1.5"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/dim10"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                tools:text="@string/movieName"
+                android:textSize="@dimen/dim25"
+                android:id="@+id/movieName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim10"/>
+
+            <TextView
+                tools:text="@string/relaseDate"
+                android:textSize="@dimen/dim20"
+                android:id="@+id/releaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim10"/>
+
+            <TextView
+                tools:text="@string/rate"
+                android:textSize="@dimen/dim20"
+                android:id="@+id/rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim10"/>
+
+            <TextView
+                tools:text="@string/overview"
+                android:textSize="@dimen/dim15"
+                android:id="@+id/overview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="6"
+                android:ellipsize="end"
+                android:layout_marginLeft="@dimen/dim10"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

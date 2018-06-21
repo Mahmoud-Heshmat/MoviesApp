@@ -2,6 +2,9 @@ package com.wasltec.ahmadalghamdi.moviesapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +36,11 @@ import com.wasltec.ahmadalghamdi.moviesapp.model.Movie;
 import com.wasltec.ahmadalghamdi.moviesapp.model.Video;
 import com.wasltec.ahmadalghamdi.moviesapp.utilts.JsonUtils;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Date;
@@ -211,15 +220,18 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void run() {
                 Date date = new Date();
-                FavoriteEntry favoriteEntry = new FavoriteEntry(movie.getId(), movie.getTitle(), date);
-                appDatabase.favoriteDAO().insertFavorite(favoriteEntry);
+                if (movie != null) {
+                    FavoriteEntry favoriteEntry = new FavoriteEntry(movie.getId(), movie.getTitle(), date,
+                            getByteArrayImage(), movie.getOverview(), movie.getVote_average(), movie.getRelease_date());
+                    appDatabase.favoriteDAO().insertFavorite(favoriteEntry);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        item.setIcon(R.drawable.ic_favorite_black_24dp);
-                    }
-                });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            item.setIcon(R.drawable.ic_favorite_black_24dp);
+                        }
+                    });
+                }
             }
         });
     }
@@ -239,5 +251,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
+
+    private byte[] getByteArrayImage(){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Bitmap bitmap = ((BitmapDrawable)posterImage_txt.getDrawable()).getBitmap();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] photo = baos.toByteArray();
+        return photo;
+    }
+
 
 }
