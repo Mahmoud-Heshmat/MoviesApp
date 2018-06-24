@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,8 +25,6 @@ import com.wasltec.ahmadalghamdi.moviesapp.model.Movie;
 import com.wasltec.ahmadalghamdi.moviesapp.utilts.JsonUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +46,11 @@ public class HomeActivity extends AppCompatActivity {
     //URL
     private String url;
 
+    //Sorting
+    Boolean isPopular = false;
+
+    static final String instanceKey = "topRated";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,11 @@ public class HomeActivity extends AppCompatActivity {
         View parentLayout = findViewById(android.R.id.content);
 
         context = this;
+
+        if (savedInstanceState != null){
+            isPopular = savedInstanceState.getBoolean(instanceKey);
+            getMovies(page, isPopular);
+        }
 
         gridLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -132,10 +138,12 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.top_rated:
                 page = 1 ;
+                isPopular = false;
                 list.clear();
                 getMovies(page, false);
                 return true;
             case R.id.most_popular:
+                isPopular = true;
                 page = 1 ;
                 list.clear();
                 getMovies(page, true);
@@ -145,5 +153,12 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(instanceKey, isPopular);
     }
 }
